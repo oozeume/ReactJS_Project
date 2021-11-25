@@ -89,7 +89,10 @@ function Coin() {
   ); // 고유한 key값을 가지기위해 해주는 작업
   const { isLoading: tickersLoading, data: tickersdata } = useQuery<PriceData>(
     ['tickers', coinId],
-    () => fetchCoinTickers(coinId)
+    () => fetchCoinTickers(coinId),
+    {
+      refetchInterval: 5000, // 5초마다 refetch
+    }
   );
 
   const loading = infoLoading || tickersLoading;
@@ -134,8 +137,8 @@ function Coin() {
                 <span>{infoData?.symbol}</span>
               </OverviewItem>
               <OverviewItem>
-                <span>Open Source:</span>
-                <span>{infoData?.open_source}</span>
+                <span>Price:</span>
+                <span>{tickersdata?.quotes.USD.price.toFixed(3)}</span>
               </OverviewItem>
             </Overview>
             <Description>{infoData?.description}</Description>
@@ -161,7 +164,7 @@ function Coin() {
 
             <Routes>
               <Route path="price" element={<Price />}></Route>
-              <Route path="chart" element={<Chart />}></Route>
+              <Route path="chart" element={<Chart coinId={coinId} />}></Route>
             </Routes>
           </>
         )}
