@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { fetchCoins } from '../api';
+import { Helmet } from 'react-helmet';
 interface ICoin {
   id: string;
   name: string;
@@ -18,6 +19,10 @@ function Coins() {
   return (
     <>
       <Container>
+        <Helmet>
+          {/* 문서의 head로 갈 부분 */}
+          <title>코인</title>
+        </Helmet>
         <Header>
           <Title>코인</Title>
         </Header>

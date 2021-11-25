@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
+import { Helmet } from 'react-helmet';
 import {
   useLocation,
   useParams,
@@ -97,27 +98,15 @@ function Coin() {
 
   const loading = infoLoading || tickersLoading;
 
-  // const [info, setInfo] = useState<InfoData>();
-  // const [loading, setLoading] = useState(true);
-  // const [priceInfo, setPriceInfo] = useState<PriceData>();
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const infoData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-  //     ).json();
-  //     const priceData = await (
-  //       await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-  //     ).json();
-  //     setInfo(infoData);
-  //     setPriceInfo(priceData);
-  //     setLoading(false);
-  //   })();
-  // }, [coinId]);
-
   return (
     <>
       <Container>
+        <Helmet>
+          {/* 문서의 head로 갈 부분 */}
+          <title>
+            {state?.name ? state.name : loading ? 'Loading..' : infoData?.name}
+          </title>
+        </Helmet>
         <Header>
           <Title>
             {state?.name ? state.name : loading ? 'Loading..' : infoData?.name}
