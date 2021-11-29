@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
-import { toDoState } from '../atoms';
-
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { categoryState, toDoState } from '../atoms';
 interface IForm {
   Todo: string;
 }
@@ -10,11 +9,12 @@ interface IForm {
 function CrateToDo() {
   const { register, handleSubmit, setValue } = useForm<IForm>();
   const setToDos = useSetRecoilState(toDoState);
+  const category = useRecoilValue(categoryState);
 
   // 유효하다면 실행할 함수
   const handleValid = ({ Todo }: IForm) => {
     setToDos((oldToDos) => [
-      { text: Todo, id: Date.now(), category: 'TO_DO' },
+      { text: Todo, id: Date.now(), category: category },
       ...oldToDos,
     ]);
     setValue('Todo', ''); // 작성 후에 빈 값으로 바꿔줌
