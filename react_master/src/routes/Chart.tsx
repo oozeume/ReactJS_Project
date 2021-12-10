@@ -29,6 +29,7 @@ function Chart({ coinId }: ChartProps) {
       refetchInterval: 10000, // 10초마다 refetch
     }
   );
+
   return (
     <>
       <h1>
@@ -36,12 +37,18 @@ function Chart({ coinId }: ChartProps) {
           'Loading Chart...'
         ) : (
           <ApexChart
-            type="line"
+            type="candlestick"
             series={[
               // 모든 data 들어있음
               {
                 name: 'Price',
-                data: data?.map((price) => price.close),
+                data: data?.map((price) => [
+                  new Date(price.time_close),
+                  price.open.toFixed(0),
+                  price.high.toFixed(0),
+                  price.low.toFixed(0),
+                  price.close.toFixed(0),
+                ]),
               },
             ]}
             options={{
@@ -49,38 +56,38 @@ function Chart({ coinId }: ChartProps) {
                 mode: isDark ? 'dark' : 'light',
               },
               chart: {
+                type: 'candlestick',
                 height: 300,
                 width: 500,
                 toolbar: {
-                  show: false,
+                  show: true,
                 },
                 background: 'transparent',
+              },
+              title: {
+                // text: 'CandleStick Chart',
+                align: 'left',
               },
               grid: { show: false },
               stroke: {
                 curve: 'smooth',
-                width: 4,
+                width: 1,
               },
               yaxis: {
                 show: false,
+                tickAmount: 6,
+                tooltip: {
+                  enabled: true,
+                },
               },
               xaxis: {
-                axisBorder: { show: false },
-                axisTicks: { show: false },
-                labels: { show: false },
+                labels: {
+                  format: 'MM/dd',
+                },
                 type: 'datetime',
                 categories: data?.map((price) => price.time_close),
               },
-              fill: {
-                type: 'gradient',
-                gradient: { gradientToColors: ['blue'], stops: [0, 100] },
-              },
               colors: ['#0fbcf9'],
-              tooltip: {
-                y: {
-                  formatter: (value) => `${value.toFixed(2)}`,
-                },
-              },
             }}
           />
         )}

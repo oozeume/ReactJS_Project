@@ -3,8 +3,13 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { fetchCoins } from '../api';
 import { Helmet } from 'react-helmet';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isDarkAtom } from '../atoms';
+import Switch from 'react-switch';
+import { useEffect, useState } from 'react';
+import LightIcon from '../images/light-mode.svg';
+import DarkIcon from '../images/dark-mode.svg';
+
 interface ICoin {
   id: string;
   name: string;
@@ -15,12 +20,20 @@ interface ICoin {
   type: string;
 }
 
-interface ICoinsProps {}
-
 function Coins() {
   const setDarkAtom = useSetRecoilState(isDarkAtom);
-  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
+  const isDark = useRecoilValue(isDarkAtom);
+
   const { isLoading, data } = useQuery<ICoin[]>('allCoins', fetchCoins);
+  const [checked, setChecked] = useState(false);
+  const handleChange = (nextChecked: boolean) => {
+    setChecked(nextChecked);
+    setDarkAtom((prev) => !prev);
+  };
+
+  useEffect(() => {
+    isDark ? setChecked(true) : setChecked(false);
+  }, []);
 
   return (
     <>
@@ -31,7 +44,38 @@ function Coins() {
         </Helmet>
         <Header>
           <Title>코인</Title>
-          <button onClick={toggleDarkAtom}>Toggle Mode</button>
+          <Switch
+            onChange={handleChange}
+            checked={checked}
+            offColor="#e0e0e0"
+            onColor="#512da8"
+            checkedIcon={
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100%',
+                  fontSize: 20,
+                }}
+              >
+                <img width="14px" src={DarkIcon} alt="" />
+              </div>
+            }
+            uncheckedIcon={
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100%',
+                  fontSize: 20,
+                }}
+              >
+                <img width="18px" src={LightIcon} alt="" />
+              </div>
+            }
+          />
         </Header>
         {isLoading ? (
           <Loader>Loading</Loader>

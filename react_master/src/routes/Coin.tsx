@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { Helmet } from 'react-helmet';
 import {
   useLocation,
+  useNavigate,
   useParams,
   Routes,
   Route,
@@ -13,13 +14,12 @@ import styled from 'styled-components';
 import { fetchCoinInfo, fetchCoins, fetchCoinTickers } from '../api';
 import Chart from './Chart';
 import Price from './Price';
+import { ReactComponent as BackBtn } from '../images/back-button.svg';
+import { PriceData } from '../interface';
 
 // interface
 interface RouteParams {
   coinId: string;
-}
-interface RouteState {
-  name: string;
 }
 
 interface InfoData {
@@ -44,44 +44,12 @@ interface InfoData {
   first_data_at: string;
   last_data_at: string;
 }
-interface PriceData {
-  id: string;
-  name: string;
-  symbol: string;
-  rank: number;
-  circulating_supply: number;
-  total_supply: number;
-  max_supply: number;
-  beta_value: number;
-  first_data_at: string;
-  last_updated: string;
-  quotes: {
-    USD: {
-      ath_date: string;
-      ath_price: number;
-      market_cap: number;
-      market_cap_change_24h: number;
-      percent_change_1h: number;
-      percent_change_1y: number;
-      percent_change_6h: number;
-      percent_change_7d: number;
-      percent_change_12h: number;
-      percent_change_15m: number;
-      percent_change_24h: number;
-      percent_change_30d: number;
-      percent_change_30m: number;
-      percent_from_price_ath: number;
-      price: number;
-      volume_24h: number;
-      volume_24h_change_24h: number;
-    };
-  };
-}
 
 function Coin() {
   const params = useParams() as RouteParams;
   const coinId = params.coinId;
   const { state } = useLocation();
+  const navigate = useNavigate();
   const priceMatch = useMatch('/:coinId/price');
   const chartMatch = useMatch('/:coinId/chart');
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
@@ -108,6 +76,13 @@ function Coin() {
           </title>
         </Helmet>
         <Header>
+          <div
+            onClick={() => {
+              navigate('/');
+            }}
+          >
+            <StyledBackBtn />
+          </div>
           <Title>
             {state?.name ? state.name : loading ? 'Loading..' : infoData?.name}
           </Title>
@@ -152,12 +127,11 @@ function Coin() {
             </Tabs>
 
             <Routes>
-              <Route path="price" element={<Price />}></Route>
+              <Route path="price" element={<Price coinId={coinId} />}></Route>
               <Route path="chart" element={<Chart coinId={coinId} />}></Route>
             </Routes>
           </>
         )}
-        ;
       </Container>
     </>
   );
@@ -175,6 +149,11 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  div {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 `;
 
 const Title = styled.h1`
@@ -190,7 +169,7 @@ const Loader = styled.span`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.cardbgColor};
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -209,6 +188,7 @@ const OverviewItem = styled.div`
 
 const Description = styled.p`
   margin: 20px 0px;
+  color: ${(props) => props.theme.descColor};
 `;
 
 const Tabs = styled.div`
@@ -226,9 +206,16 @@ const Tab = styled.span<{ isActive: boolean }>`
   background-color: rgba(0, 0, 0, 0.5);
   padding: 7px 0px;
   border-radius: 10px;
+  background-color: ${(props) => props.theme.cardbgColor};
   color: ${(props) =>
     props.isActive ? props.theme.accentColor : props.theme.textColor};
   a {
     display: block;
   }
+`;
+
+const StyledBackBtn = styled(BackBtn)`
+  fill: ${(props) => props.theme.descColor};
+  width: 25px;
+  height: 25px;
 `;
