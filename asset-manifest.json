@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/ReactJS_Project/static/js/main.1cafa143.chunk.js",
+    "main.js.map": "/ReactJS_Project/static/js/main.1cafa143.chunk.js.map",
+    "runtime-main.js": "/ReactJS_Project/static/js/runtime-main.82f0e598.js",
+    "runtime-main.js.map": "/ReactJS_Project/static/js/runtime-main.82f0e598.js.map",
+    "static/js/2.d299b2b2.chunk.js": "/ReactJS_Project/static/js/2.d299b2b2.chunk.js",
+    "static/js/2.d299b2b2.chunk.js.map": "/ReactJS_Project/static/js/2.d299b2b2.chunk.js.map",
+    "index.html": "/ReactJS_Project/index.html",
+    "static/js/2.d299b2b2.chunk.js.LICENSE.txt": "/ReactJS_Project/static/js/2.d299b2b2.chunk.js.LICENSE.txt",
+    "static/media/back-button.2962fba6.svg": "/ReactJS_Project/static/media/back-button.2962fba6.svg",
+    "static/media/dark-mode.5d4fce9e.svg": "/ReactJS_Project/static/media/dark-mode.5d4fce9e.svg",
+    "static/media/light-mode.d8284e85.svg": "/ReactJS_Project/static/media/light-mode.d8284e85.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.82f0e598.js",
+    "static/js/2.d299b2b2.chunk.js",
+    "static/js/main.1cafa143.chunk.js"
+  ]
+}
