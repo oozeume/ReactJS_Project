@@ -1,6 +1,5 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import ToDoList from './components/ToDoList';
-import logo from './logo.svg';
 import {darkTheme} from './theme';
 
 function App() {
@@ -63,9 +62,8 @@ function App() {
   `
   return (
     <ThemeProvider theme={darkTheme}>
-      <GlobalStyle>
+      <GlobalStyle />
       <ToDoList />
-      </GlobalStyle>
     </ThemeProvider>
     
   )
